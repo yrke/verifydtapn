@@ -96,7 +96,7 @@ namespace VerifyTAPN::DiscreteVerification {
                 : Generator(tapn, query), interesting(tapn), _enabled(tapn.getTransitions().size()),
                   _stubborn(tapn.getTransitions().size()) {};
 
-        void from_marking(NonStrictMarkingBase *parent, Mode mode = ALL, bool urgent = false) override;
+        void from_marking(NonStrictMarkingBase *parent, kind_e mode = ALL, bool urgent = false) override;
 
         NonStrictMarkingBase *next(bool do_delay = true) override;
     };

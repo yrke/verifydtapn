@@ -40,7 +40,7 @@ namespace VerifyTAPN::DiscreteVerification {
         base_permutation.resize(maxtokens);
     }
 
-    void Generator::from_marking(NonStrictMarkingBase *parent, Mode mode, bool seen_urgent) {
+    void Generator::from_marking(NonStrictMarkingBase *parent, kind_e mode, bool seen_urgent) {
         this->parent = parent;
         this->mode = mode;
         num_children = 0;
@@ -136,13 +136,13 @@ namespace VerifyTAPN::DiscreteVerification {
 
     bool Generator::modes_match(const TAPN::TimedTransition *trans) {
         switch (mode) {
-            case Mode::CONTROLLABLE:
+            case kind_e::CONTROLLABLE:
                 if (!trans->isControllable()) return false;
                 break;
-            case Mode::ENVIRONMENT:
+            case kind_e::ENVIRONMENT:
                 if (trans->isControllable()) return false;
                 break;
-            case Mode::ALL:
+            case kind_e::ALL:
                 break;
         }
         return true;

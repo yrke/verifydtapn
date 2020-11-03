@@ -18,13 +18,13 @@ namespace VerifyTAPN::DiscreteVerification {
     class Generator {
         typedef std::vector<const TAPN::TimedTransition *> transitions_t;
     public:
-        enum Mode {
+        enum kind_e {
             CONTROLLABLE, ENVIRONMENT, ALL
         };
     protected:
         const TAPN::TimedArcPetriNet &tapn;
         NonStrictMarkingBase *parent{};
-        Mode mode;
+        kind_e mode;
         transitions_t allways_enabled;
         std::vector<transitions_t> place_transition;
         size_t num_children{};
@@ -43,7 +43,7 @@ namespace VerifyTAPN::DiscreteVerification {
     public:
         Generator(TAPN::TimedArcPetriNet &tapn, AST::Query *query);
 
-        virtual void from_marking(NonStrictMarkingBase *parent, Mode mode = ALL, bool urgent = false);
+        virtual void from_marking(NonStrictMarkingBase *parent, kind_e mode = ALL, bool urgent = false);
 
         virtual NonStrictMarkingBase *next(bool do_delay = true);
 

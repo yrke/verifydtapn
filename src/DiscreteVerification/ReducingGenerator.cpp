@@ -82,7 +82,7 @@ namespace VerifyTAPN::DiscreteVerification {
     }
 
 
-    void ReducingGenerator::from_marking(NonStrictMarkingBase *parent, Mode mode, bool urgent) {
+    void ReducingGenerator::from_marking(NonStrictMarkingBase *parent, kind_e mode, bool urgent) {
         Generator::from_marking(parent, mode, urgent);
         std::fill(_enabled.begin(), _enabled.end(), false);
         assert(_ordering.empty());
