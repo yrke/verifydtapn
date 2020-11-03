@@ -7,7 +7,7 @@
 #include "Verification.hpp"
 #include "../DataStructures/TimeDart.hpp"
 #include "../Generator.h"
-#include "../ReducingGenerator.hpp"
+#include "../ReducingGenerator.h"
 #include <stack>
 
 namespace VerifyTAPN::DiscreteVerification {
