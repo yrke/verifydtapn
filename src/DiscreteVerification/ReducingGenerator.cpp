@@ -400,11 +400,10 @@ namespace VerifyTAPN::DiscreteVerification {
         }
     }
 
-    static IncDecr ic(true, false);
-    static IncDecr dc(false, true);
-
     void InterestingVisitor::visit(AtomicProposition &expr, Result &context) {
         auto incdec = [this, &expr](bool id1, bool id2) {
+            IncDecr ic(true, false);
+            IncDecr dc(false, true);
             if (id1) expr.getLeft().accept(*this, ic);
             else expr.getLeft().accept(*this, dc);
             if (id2) expr.getRight().accept(*this, ic);
@@ -487,29 +486,26 @@ namespace VerifyTAPN::DiscreteVerification {
 
     void InterestingVisitor::visit(MinusExpression &expr, Result &context) {
         auto &id = static_cast<IncDecr &> (context);
-        if (id.incr) {
-            IncDecr c(false, true);
-            expr.accept(*this, c);
-        }
-
-        if (id.decr) {
-            IncDecr c(false, true);
-            expr.accept(*this, c);
-        }
+        IncDecr down(false, true);
+        IncDecr up(true, false);
+        if (id.incr && id.decr) expr.accept(*this, id);
+        else if (id.incr) expr.accept(*this, down);
+        else if (id.decr) expr.accept(*this, up);
     }
 
     void InterestingVisitor::visit(SubtractExpression &expr, Result &context) {
         auto &id = static_cast<IncDecr &> (context);
-        if (id.incr) {
-            IncDecr c(false, true);
-            expr.getLeft().accept(*this, context);
-            expr.getRight().accept(*this, c);
-        }
-
-        if (id.decr) {
-            IncDecr c(false, true);
-            expr.getLeft().accept(*this, context);
-            expr.getRight().accept(*this, c);
+        IncDecr down(false, true);
+        IncDecr up(true, false);
+        if (id.incr && id.decr)
+        {
+            expr.accept(*this, id);
+        } else if (id.incr) {
+            expr.getLeft().accept(*this, up);
+            expr.getRight().accept(*this, down);
+        } else if (id.decr) {
+            expr.getLeft().accept(*this, down);
+            expr.getRight().accept(*this, up);
         }
     }
 
@@ -517,6 +513,4 @@ namespace VerifyTAPN::DiscreteVerification {
         expr.getLeft().accept(*this, context);
         expr.getRight().accept(*this, context);
     }
-
-
 }
