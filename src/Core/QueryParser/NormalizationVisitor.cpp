@@ -44,14 +44,23 @@ namespace VerifyTAPN::AST {
 
     void NormalizationVisitor::visit(AtomicProposition &expr, Result &context) {
         auto &tuple = static_cast<Tuple &>(context);
-        std::string op;
+        auto op = expr.getOperator();
         if (tuple.negate) {
-            op = negateOperator(expr.getOperator());
+            switch(op) {
+                case AtomicProposition::LE: op = AtomicProposition::LT;
+                case AtomicProposition::LT: op = AtomicProposition::LE;
+                case AtomicProposition::EQ: op = AtomicProposition::NE;
+                case AtomicProposition::NE: op = AtomicProposition::EQ;
+                default: assert(false);
+            }
+            // flip of arguments is intended
+            tuple.returnExpr = new AtomicProposition(&expr.getRight(), op,
+                                                     &expr.getLeft());
         } else {
-            op = expr.getOperator();
+            tuple.returnExpr = new AtomicProposition(&expr.getLeft(), op,
+                                                     &expr.getRight());
         }
-        tuple.returnExpr = new AtomicProposition(&expr.getLeft(), &op,
-                                                 &expr.getRight());// dont visit arithmetics for now
+
     }
 
     void NormalizationVisitor::visit(NumberExpression &expr, Result &context) {
@@ -87,22 +96,5 @@ namespace VerifyTAPN::AST {
         query.getChild()->accept(*this, any);
 
         normalizedQuery = new AST::Query(query.getQuantifier(), static_cast<Tuple &>(any).returnExpr);
-    }
-
-    std::string NormalizationVisitor::negateOperator(const std::string &op) const {
-        if (op == "=" || op == "==") {
-            return "!=";
-        } else if (op == ">") {
-            return "<=";
-        } else if (op == "<") {
-            return ">=";
-        } else if (op == ">=") {
-            return "<";
-        } else if (op == "<=") {
-            return ">";
-        } else {
-            std::cout << "Unknown operator";
-            throw new std::exception();
-        }
     }
 }

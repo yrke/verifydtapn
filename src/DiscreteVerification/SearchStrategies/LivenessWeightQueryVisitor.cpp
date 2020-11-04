@@ -101,19 +101,19 @@ namespace VerifyTAPN::DiscreteVerification {
         static_cast<IntResult &>(context).value = 0;
     }
 
-    int LivenessWeightQueryVisitor::compare(int numberOfTokensInPlace, const std::string &op, int n) const {
-        if (op == "<")
-            return numberOfTokensInPlace < n ? abs(n - numberOfTokensInPlace) : -abs(n - numberOfTokensInPlace);
-        else if (op == "<=")
-            return numberOfTokensInPlace <= n ? abs(n - numberOfTokensInPlace) : -abs(n - numberOfTokensInPlace);
-        else if (op == "=" || op == "==") return numberOfTokensInPlace == n ? 0 : abs(n - numberOfTokensInPlace);
-        else if (op == ">=")
-            return numberOfTokensInPlace >= n ? abs(n - numberOfTokensInPlace) : -abs(n - numberOfTokensInPlace);
-        else if (op == ">")
-            return numberOfTokensInPlace > n ? abs(n - numberOfTokensInPlace) : -abs(n - numberOfTokensInPlace);
-        else if (op == "!=") return numberOfTokensInPlace == n ? abs(n - numberOfTokensInPlace) : 0;
-        else
-            throw std::exception();
+    int LivenessWeightQueryVisitor::compare(int numberOfTokensInPlace, AtomicProposition::op_e op, int n) const {
+        switch (op) {
+            case AtomicProposition::LT:
+                return numberOfTokensInPlace < n ? abs(n - numberOfTokensInPlace) : -abs(n - numberOfTokensInPlace);
+            case AtomicProposition::LE:
+                return numberOfTokensInPlace <= n ? abs(n - numberOfTokensInPlace) : -abs(n - numberOfTokensInPlace);
+            case AtomicProposition::EQ:
+                return numberOfTokensInPlace == n ? 0 : abs(n - numberOfTokensInPlace);
+            case AtomicProposition::NE:
+                return numberOfTokensInPlace == n ? abs(n - numberOfTokensInPlace) : 0;
+            default:
+                throw std::exception();
+        }
     }
 
 } /* namespace VerifyTAPN */

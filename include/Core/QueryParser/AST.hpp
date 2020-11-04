@@ -1,9 +1,12 @@
 #ifndef AST_HPP_
 #define AST_HPP_
 
+
+#include "Visitor.hpp"
+
 #include <string>
 #include <iostream>
-#include "Visitor.hpp"
+#include <cassert>
 
 namespace VerifyTAPN::AST {
 
@@ -89,11 +92,38 @@ namespace VerifyTAPN::AST {
 
     class AtomicProposition : public Expression {
     public:
+        enum op_e {
+            LT,
+            LE,
+            EQ,
+            NE
+        };
 
-        AtomicProposition(ArithmeticExpression *left, std::string *op, ArithmeticExpression *right) : left(left),
-                                                                                                      op(op->begin(),
-                                                                                                         op->end()),
-                                                                                                      right(right) {
+        AtomicProposition(ArithmeticExpression *l, op_e op, ArithmeticExpression *r) : left(l), right(r), op(op) {};
+        
+        AtomicProposition(ArithmeticExpression *l, const std::string* sop, ArithmeticExpression *r) : left(l),
+                                                                                                      right(r) {
+
+            if (*sop == "<")
+            {
+                 op = LT;
+            }
+            else if (*sop == ">=") {
+                op = LE;
+                std::swap(left, right);
+            } else if (*sop == "<=") {
+                op = LE;
+            } else if (*sop == ">") {
+                op = LT;
+                std::swap(left, right);
+            } else if (*sop == "=" || *sop == "==") {
+                op = EQ;
+            } else if (*sop == "!=") {
+                op = NE;
+            } else {
+                assert(false);
+                throw std::exception();
+            }
         };
 
         AtomicProposition(const AtomicProposition &other) : left(other.left), op(other.op), right(other.right) {
@@ -112,15 +142,25 @@ namespace VerifyTAPN::AST {
 
         ArithmeticExpression &getLeft() const {
             return *left;
-        };
+        }
 
         ArithmeticExpression &getRight() const {
             return *right;
-        };
+        }
 
-        std::string getOperator() const {
+        op_e getOperator() const {
             return op;
-        };
+        }
+        
+        const char* getStringOp() const {
+            switch(op) {
+                case LE: return "<=";
+                case LT: return "<";
+                case EQ: return "=";
+                case NE: return "!=";
+                default: assert(false);
+            }
+        }
 
         AtomicProposition *clone() const override;
 
@@ -128,8 +168,8 @@ namespace VerifyTAPN::AST {
 
     private:
         ArithmeticExpression *left;
-        std::string op;
         ArithmeticExpression *right;
+        op_e op;
     };
 
     class AndExpression : public Expression {

@@ -52,7 +52,7 @@ namespace VerifyTAPN::DiscreteVerification {
         void visit(PlusExpression &expr, Result &context) override;
 
     private:
-        int compare(int numberOfTokensInPlace, const std::string &op, int n) const;
+        int compare(int numberOfTokensInPlace, AtomicProposition::op_e op, int n) const;
 
     private:
         const NonStrictMarkingBase &marking;

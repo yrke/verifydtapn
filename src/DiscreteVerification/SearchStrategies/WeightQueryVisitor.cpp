@@ -101,15 +101,18 @@ namespace VerifyTAPN::DiscreteVerification {
         query.getChild()->accept(*this, context);
     }
 
-    int WeightQueryVisitor::compare(int numberOfTokensInPlace, const std::string &op, int n) const {
-        if (op == "<") return numberOfTokensInPlace < n ? 0 : abs(n - numberOfTokensInPlace);
-        else if (op == "<=") return numberOfTokensInPlace <= n ? 0 : abs(n - numberOfTokensInPlace);
-        else if (op == "=" || op == "==") return numberOfTokensInPlace == n ? 0 : abs(n - numberOfTokensInPlace);
-        else if (op == ">=") return numberOfTokensInPlace >= n ? 0 : abs(n - numberOfTokensInPlace);
-        else if (op == ">") return numberOfTokensInPlace > n ? 0 : abs(n - numberOfTokensInPlace);
-        else if (op == "!=") return numberOfTokensInPlace == n ? 1 : 0;
-        else
-            throw std::exception();
+    int WeightQueryVisitor::compare(int numberOfTokensInPlace, AtomicProposition::op_e op, int n) const {
+        switch(op)
+        {
+            case AtomicProposition::LT: return numberOfTokensInPlace < n ? 0 : abs(n - numberOfTokensInPlace);
+            case AtomicProposition::LE: return numberOfTokensInPlace <= n ? 0 : abs(n - numberOfTokensInPlace);
+            case AtomicProposition::EQ: return numberOfTokensInPlace == n ? 0 : abs(n - numberOfTokensInPlace);
+            case AtomicProposition::NE: return numberOfTokensInPlace == n ? 1 : 0;
+            default:
+                assert(false);
+                throw std::exception();
+                return 0;
+        }
     }
 
 } /* namespace VerifyTAPN */

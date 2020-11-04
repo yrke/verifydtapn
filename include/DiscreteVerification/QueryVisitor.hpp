@@ -63,7 +63,7 @@ namespace VerifyTAPN::DiscreteVerification {
         void visit(PlusExpression &expr, AST::Result &context) override;
 
     private:
-        bool compare(int numberOfTokensInPlace, const std::string &op, int n) const;
+        bool compare(int numberOfTokensInPlace, AtomicProposition::op_e op, int n) const;
 
     private:
         const T &marking;
@@ -202,14 +202,15 @@ namespace VerifyTAPN::DiscreteVerification {
     }
 
     template<typename T>
-    bool QueryVisitor<T>::compare(int numberOfTokensInPlace, const std::string &op, int n) const {
-        if (op == "<") return numberOfTokensInPlace < n;
-        else if (op == "<=") return numberOfTokensInPlace <= n;
-        else if (op == "=" || op == "==") return numberOfTokensInPlace == n;
-        else if (op == ">=") return numberOfTokensInPlace >= n;
-        else if (op == ">") return numberOfTokensInPlace > n;
-        else if (op == "!=") return numberOfTokensInPlace != n;
-        assert(false);
+    bool QueryVisitor<T>::compare(int numberOfTokensInPlace, AtomicProposition::op_e op, int n) const {
+        
+        switch(op) {
+            case AtomicProposition::LT: return numberOfTokensInPlace < n;
+            case AtomicProposition::LE: return numberOfTokensInPlace <= n;
+            case AtomicProposition::EQ: return numberOfTokensInPlace == n;
+            case AtomicProposition::NE: return numberOfTokensInPlace != n;
+            default: assert(false);
+        }
         return false;
     }
 
