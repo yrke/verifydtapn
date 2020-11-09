@@ -1,23 +1,17 @@
 #include "Core/TAPN/TimeInterval.hpp"
-#include <boost/algorithm/string.hpp>
 #include <vector>
 
 namespace VerifyTAPN::TAPN {
-    using namespace boost::algorithm;
-
-    bool str_contains(const std::string& s, char c) {
-        return std::any_of(s.begin(), s.end(), [c](auto a) { return a == c; });
-    }
 
     TimeInterval TimeInterval::createFor(const std::string &interval, const std::map<std::string, int> &replace) {
-        bool leftStrict = str_contains(interval, '(');
-        bool rightStrict = str_contains(interval, ')');
+        bool leftStrict = interval.front() == '(';
+        bool rightStrict = interval.back() == ')';
 
         std::vector<std::string> splitVector;
-        split(splitVector, interval, is_any_of(","));
 
-        std::string strLowerBound = splitVector[0].substr(1);
-        std::string strUpperBound = splitVector[1].substr(0, splitVector[1].size() - 1);
+        auto pos = interval.find_first_of(',');
+        std::string strLowerBound = interval.substr(1, pos - 2);
+        std::string strUpperBound = interval.substr(pos + 1, interval.size() - (pos + 2));
 
         int lowerBound;
         if (replace.count(strLowerBound) > 0)
@@ -27,7 +21,7 @@ namespace VerifyTAPN::TAPN {
 
         int upperBound = std::numeric_limits<int>::max();
 
-        if (!iequals(strUpperBound, "inf")) {
+        if (strUpperBound != "inf") {
             if (replace.count(strUpperBound) > 0)
                 upperBound = replace.at(strUpperBound);
             else

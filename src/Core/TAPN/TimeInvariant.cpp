@@ -1,18 +1,17 @@
 #include "Core/TAPN/TimeInvariant.hpp"
-
-#include <boost/algorithm/string.hpp>
+#include <sstream>
 
 namespace VerifyTAPN::TAPN {
     const TimeInvariant TimeInvariant::LS_INF;
 
     TimeInvariant TimeInvariant::createFor(const std::string &invariant, std::map<std::string, int> replace) {
-        bool strict = !boost::algorithm::icontains(invariant, "<=");
+        bool strict = invariant.find("<=") == std::string::npos;
         int bound = std::numeric_limits<int>::max();
 
         int pos = strict ? 1 : 2;
         std::string number = invariant.substr(pos);
 
-        if (!boost::algorithm::icontains(invariant, "inf")) {
+        if (invariant.find("inf") == std::string::npos) {
             if (replace.count(number))
                 bound = replace.at(number);
             else
@@ -26,6 +25,6 @@ namespace VerifyTAPN::TAPN {
         std::string comparison = strictComparison ? "<" : "<=";
         std::string strBound = bound == std::numeric_limits<int>::max() ? "inf" : std::to_string(bound);
 
-        out << comparison << " " << strBound;
+        out << comparison <<  " " << strBound;
     }
 }

@@ -1,5 +1,4 @@
 #include "TimeInterval.hpp"
-#include "boost/algorithm/string.hpp"
 #include <vector>
 
 namespace VerifyTAPN {
@@ -7,14 +6,12 @@ namespace VerifyTAPN {
 		using namespace boost::algorithm;
 		TimeInterval TimeInterval::CreateFor(const std::string& interval)
 		{
-			bool leftStrict = boost::algorithm::icontains(interval, "(");
-			bool rightStrict = boost::algorithm::icontains(interval,")");
+			bool leftStrict = interval.first() == '(';
+			bool rightStrict = interval.last() == ')';
 
-			std::vector<std::string> splitVector;
-			split(splitVector, interval, is_any_of(","));
-
-			std::string strLowerBound = splitVector[0].substr(1);
-			std::string strUpperBound = splitVector[1].substr(0,splitVector[1].size()-1);
+                        auto pos = interval.first_of(',');
+			std::string strLowerBound = interval.substr(1, pos - 2);
+			std::string strUpperBound = interval.substr(pos + 1, (interval.size() - (pos + 2)));
 
 			int lowerBound = std::atoi(strLowerBound);
 			int upperBound = std::numeric_limits<int>().max();
