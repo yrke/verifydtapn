@@ -1,6 +1,5 @@
 #include "TimeInterval.hpp"
 #include "boost/algorithm/string.hpp"
-#include "boost/lexical_cast.hpp"
 #include <vector>
 
 namespace VerifyTAPN {
@@ -15,16 +14,14 @@ namespace VerifyTAPN {
 			split(splitVector, interval, is_any_of(","));
 
 			std::string strLowerBound = splitVector[0].substr(1);
-			trim(strLowerBound);
 			std::string strUpperBound = splitVector[1].substr(0,splitVector[1].size()-1);
-			trim(strUpperBound);
 
-			int lowerBound = boost::lexical_cast<int>(strLowerBound);
+			int lowerBound = std::atoi(strLowerBound);
 			int upperBound = std::numeric_limits<int>().max();
 
 			if(!iequals(strUpperBound, "inf"))
 			{
-				upperBound = boost::lexical_cast<int>(strUpperBound);
+				upperBound = std::atoi(strUpperBound);
 			}
 
 			return TimeInterval(leftStrict, lowerBound, upperBound, rightStrict);

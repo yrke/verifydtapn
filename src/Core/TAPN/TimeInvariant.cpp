@@ -1,7 +1,6 @@
 #include "Core/TAPN/TimeInvariant.hpp"
 
 #include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 
 namespace VerifyTAPN::TAPN {
     const TimeInvariant TimeInvariant::LS_INF;
@@ -12,13 +11,12 @@ namespace VerifyTAPN::TAPN {
 
         int pos = strict ? 1 : 2;
         std::string number = invariant.substr(pos);
-        boost::algorithm::trim(number);
 
         if (!boost::algorithm::icontains(invariant, "inf")) {
             if (replace.count(number))
                 bound = replace.at(number);
             else
-                bound = boost::lexical_cast<int>(number);
+                bound = std::atoi(number.c_str());
         }
         if (bound == std::numeric_limits<int>::max()) return LS_INF;
         else return TimeInvariant(strict, bound);

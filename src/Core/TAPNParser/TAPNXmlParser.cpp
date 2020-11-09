@@ -4,10 +4,6 @@
 #include <string>
 #include <algorithm>
 
-#include <boost/bind.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-
 namespace VerifyTAPN {
     using namespace rapidxml;
 
@@ -288,13 +284,11 @@ namespace VerifyTAPN {
             std::string initialMarkingValue = placeNode->first_attribute("initialMarking")->value();
             std::string placeName(placeNode->first_attribute("name")->value());
 
-            boost::algorithm::trim(initialMarkingValue);
-
             int nTokens;
             if (replace.count(initialMarkingValue))
                 nTokens = replace.at(initialMarkingValue);
             else
-                nTokens = boost::lexical_cast<int>(initialMarkingValue);
+                nTokens = std::atoi(initialMarkingValue.c_str());
             totalInitTokens += nTokens;
 
             if (nTokens > 0) {
@@ -315,7 +309,7 @@ namespace VerifyTAPN {
             if (replace.count(attribute->value()))
                 weight = replace.at(attribute->value());
             else
-                weight = atoi(attribute->value());
+                weight = std::atoi(attribute->value());
         }
         return weight;
     }
