@@ -1,7 +1,7 @@
 #ifndef VERIFICATION_HPP_
 #define VERIFICATION_HPP_
 
-#include "../DataStructures/NonStrictMarking.hpp"
+#include "DiscreteVerification/DataStructures/NonStrictMarking.hpp"
 #include "../DeadlockVisitor.hpp"
 
 #include "Core/TAPNParser/util.hpp"

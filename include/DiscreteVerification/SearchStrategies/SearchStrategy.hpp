@@ -8,7 +8,7 @@
 #ifndef SEARCHSTRATEGY_HPP_
 #define SEARCHSTRATEGY_HPP_
 
-#include "../DataStructures/WaitingList.hpp"
+#include "DiscreteVerification/DataStructures/WaitingList.hpp"
 
 namespace VerifyTAPN::DiscreteVerification {
 

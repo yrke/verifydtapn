@@ -12,7 +12,7 @@
 #include "google/sparse_hash_map"
 #include <boost/functional/hash.hpp>
 #include "../QueryParser/AST.hpp"
-#include "../../DiscreteVerification/PlaceVisitor.hpp"
+#include "DiscreteVerification/PlaceVisitor.hpp"
 #include "../VerificationOptions.hpp"
 
 namespace VerifyTAPN::TAPN {

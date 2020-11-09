@@ -8,20 +8,20 @@
 #ifndef WORKFLOWSOUNDNESS_HPP_
 #define WORKFLOWSOUNDNESS_HPP_
 
-#include "../DataStructures/WorkflowPWList.hpp"
-#include "../../Core/TAPN/TAPN.hpp"
-#include "../../Core/QueryParser/AST.hpp"
-#include "../../Core/VerificationOptions.hpp"
-#include "../../Core/TAPN/TimedPlace.hpp"
-#include "../../Core/TAPN/TimedTransition.hpp"
-#include "../../Core/TAPN/TimedInputArc.hpp"
-#include "../../Core/TAPN/TransportArc.hpp"
-#include "../../Core/TAPN/InhibitorArc.hpp"
-#include "../../Core/TAPN/OutputArc.hpp"
+#include "DiscreteVerification/DataStructures/WorkflowPWList.hpp"
+#include "Core/TAPN/TAPN.hpp"
+#include "Core/QueryParser/AST.hpp"
+#include "Core/VerificationOptions.hpp"
+#include "Core/TAPN/TimedPlace.hpp"
+#include "Core/TAPN/TimedTransition.hpp"
+#include "Core/TAPN/TimedInputArc.hpp"
+#include "Core/TAPN/TransportArc.hpp"
+#include "Core/TAPN/InhibitorArc.hpp"
+#include "Core/TAPN/OutputArc.hpp"
 #include "../QueryVisitor.hpp"
-#include "../DataStructures/NonStrictMarking.hpp"
+#include "DiscreteVerification/DataStructures/NonStrictMarking.hpp"
 #include <stack>
-#include "../DataStructures/WaitingList.hpp"
+#include "DiscreteVerification/DataStructures/WaitingList.hpp"
 #include "Workflow.hpp"
 
 using namespace ptrie;

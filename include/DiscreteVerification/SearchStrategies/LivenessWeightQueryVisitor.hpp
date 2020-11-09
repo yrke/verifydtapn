@@ -8,9 +8,9 @@
 #ifndef LIVEWEIGHTQUERYVISITOR_HPP_
 #define LIVEWEIGHTQUERYVISITOR_HPP_
 
-#include "../../Core/QueryParser/Visitor.hpp"
-#include "../DataStructures/NonStrictMarking.hpp"
-#include "../../Core/QueryParser/AST.hpp"
+#include "Core/QueryParser/Visitor.hpp"
+#include "DiscreteVerification/DataStructures/NonStrictMarking.hpp"
+#include "Core/QueryParser/AST.hpp"
 #include <exception>
 #include <climits>
 

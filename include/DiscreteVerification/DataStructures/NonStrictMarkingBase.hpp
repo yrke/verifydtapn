@@ -8,11 +8,12 @@
 #ifndef NonStrictMarkingBase_HPP_
 #define NonStrictMarkingBase_HPP_
 
+#include "Core/TAPN/TAPN.hpp"
+
+#include "boost/functional/hash.hpp"
+
 #include <cassert>
 #include <vector>
-#include "boost/functional/hash.hpp"
-#include <iostream>
-#include "../../Core/TAPN/TAPN.hpp"
 #include <iostream>
 
 using namespace std;
